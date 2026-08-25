@@ -1,0 +1,41 @@
+# macOS
+.DS_Store
+.localized
+._*
+.AppleDouble
+.LSOverride
+__MACOSX/
+.Trashes
+.Spotlight-V100
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.apdisk
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+*.icloud
+
+# Linux
+.directory
+.Trash-*/
+.nfs*
+.fuse_hidden*
+.goutputstream-*
+
+# Editor / tooling scratch
+*~
+*.swp
+*.swo
+.idea/
+*.iml
+*.sublime-workspace
+\#*#
+.#*
+.~lock.*#
+**/.claude/settings.local.json
+
+# Custom folder icons
+Icon[]
