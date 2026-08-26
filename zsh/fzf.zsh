@@ -33,13 +33,14 @@ export FZF_DEFAULT_OPTS='
 '
 
 if [[ -n $_bat ]]; then
-  export _FZF_PREVIEW_CMD="$_bat --color=always --style=plain,numbers --line-range=:500 {}"
+  _FZF_PREVIEW_CMD="$_bat --color=always --style=plain,numbers --line-range=:500 {}"
 else
-  export _FZF_PREVIEW_CMD='head -n 500 {}'
+  _FZF_PREVIEW_CMD='head -n 500 {}'
 fi
 export FZF_CTRL_T_OPTS="--preview '$_FZF_PREVIEW_CMD'"
 
-export _FZF_BAT="$_bat"      # the rg preview needs the binary, not the command
+# Not exported: both are interpolated into --preview before fzf is spawned.
+_FZF_BAT="$_bat"      # the rg preview needs the binary, not the command
 unset _fd _bat
 
 # Ctrl+F: file picker excluding hidden files
@@ -54,7 +55,8 @@ _fzf_file_no_hidden() {
     # Older fzf (Debian 12 ships 0.38): its default already prunes dot-paths.
     result=$(fzf --preview "$_FZF_PREVIEW_CMD")
   fi
-  [[ -n $result ]] && LBUFFER+="$result"   # empty when cancelled with Esc
+  # (q-) quotes only when needed, so a path with spaces stays one word.
+  [[ -n $result ]] && LBUFFER+="${(q-)result}"   # empty when cancelled with Esc
   zle reset-prompt
 }
 zle -N _fzf_file_no_hidden

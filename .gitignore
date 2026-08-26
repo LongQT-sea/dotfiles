@@ -5,5 +5,3 @@ zsh/plugins/
 zshrc.local
 
 zsh/.zsh_*
-*.bak
-*.bak-*
