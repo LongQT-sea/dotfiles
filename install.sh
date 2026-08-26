@@ -2,18 +2,27 @@
 # shellcheck disable=SC3043
 # Set it all up: install whatever is missing, then put the files in place.
 # Idempotent — safe to re-run.
-#
-#   ./install.sh            install missing tools, then copy files into place
-#   ./install.sh --link     symlink to the repo instead of copying
-#   ./install.sh --no-deps  place files only, install nothing
-#   ./install.sh --dry-run  print what would happen, change nothing
-#
-# Existing real files are moved to <file>.bak-<timestamp>.
 
 set -eu
 
+usage() {
+  cat <<'EOF'
+Set it all up: install whatever is missing, then put the files in place.
+Idempotent — safe to re-run.
+
+  ./install.sh            install missing tools, then copy files into place
+  ./install.sh --link     symlink to the repo instead of copying
+  ./install.sh --no-deps  place files only, install nothing
+  ./install.sh --dry-run  print what would happen, change nothing
+
+Displaced files are moved to ~/old_dotfiles/<timestamp>/ — delete that
+directory to clean up.
+EOF
+}
+
 REPO="$(cd "$(dirname "$0")" && pwd)"
 STAMP="$(date +%Y%m%d%H%M%S)"
+BACKUP_ROOT="$HOME/old_dotfiles"
 DRY=0
 DEPS=1
 MODE=copy
@@ -23,7 +32,7 @@ for arg in "$@"; do
     --dry-run) DRY=1 ;;
     --no-deps) DEPS=0 ;;
     --link)    MODE="link" ;;
-    -h|--help) sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help) usage; exit 0 ;;
     *)         echo "unknown option: $arg (try --help)" >&2; exit 2 ;;
   esac
 done
@@ -515,6 +524,15 @@ termux_directory_tweak() {
       -e '/^\[directory\]/,/^\[/ s/^truncation_length = 7/truncation_length = 4/' "$1"
 }
 
+stash() {   # stash PATH REL [WHY]
+  local path="$1" rel="$2" why="${3:-}"
+  local dest="$BACKUP_ROOT/$STAMP/$rel"
+
+  warn "SAVE  ~/$rel -> old_dotfiles/$STAMP/$rel${why:+  ($why)}"
+  run mkdir -p "$(dirname "$dest")"
+  run mv "$path" "$dest"
+}
+
 # copy_file SRC DST REL FRESH [FILTER] — FRESH=1: just cleared, so there is
 # nothing left to compare against or back up.
 copy_file() {
@@ -533,8 +551,7 @@ copy_file() {
     ok "OK    ~/$rel"
   else
     if [ "$fresh" -eq 0 ] && { [ -e "$dst" ] || [ -L "$dst" ]; }; then
-      warn "MOVE  ~/$rel -> ~/$rel.bak-$STAMP"
-      run mv "$dst" "$dst.bak-$STAMP"
+      stash "$dst" "$rel"
     fi
     ok "COPY  ~/$rel"
     run mkdir -p "$(dirname "$dst")"
@@ -542,6 +559,20 @@ copy_file() {
   fi
 
   [ -z "$tmp" ] || rm -f "$tmp"
+}
+
+prune_dir() {
+  local src="$1" dst="$2" rel="$3"
+  local f name
+
+  if [ -L "$dst" ] || [ ! -d "$dst" ]; then return 0; fi
+
+  for f in "$dst"/*; do
+    if [ ! -f "$f" ] || [ -L "$f" ]; then continue; fi
+    name="${f##*/}"
+    [ -e "$src/$name" ] && continue
+    stash "$f" "$rel/$name" "gone from the repo"
+  done
 }
 
 # Top-level regular files only: once live, this directory also holds the plugin
@@ -555,6 +586,7 @@ copy_dir() {
     [ -f "$f" ] || continue
     copy_file "$f" "$dst/${f##*/}" "$rel/${f##*/}" "$fresh"
   done
+  prune_dir "$src" "$dst" "$rel"
 }
 
 place_link() {
@@ -580,8 +612,7 @@ place_link() {
   fi
 
   if [ -e "$dst" ] || [ -L "$dst" ]; then
-    warn "MOVE  $disp -> ~/$rel.bak-$STAMP"
-    run mv "$dst" "$dst.bak-$STAMP"
+    stash "$dst" "$rel"
   fi
 
   ok "LINK  $disp -> $name"
