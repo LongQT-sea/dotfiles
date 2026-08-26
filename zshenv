@@ -31,7 +31,10 @@ if [[ -z $_ctype || $_ctype == (C|POSIX) ]]; then
   fi
   for _l in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8; do
     if (( $#_locales == 0 )) || (( ${_locales[(I)$_l]} )); then
-      export LANG=$_l
+      # Both outrank LANG, so a C left in either would swallow the export below.
+      [[ ${LC_ALL:-}   == (C|POSIX) ]] && unset LC_ALL
+      [[ ${LC_CTYPE:-} == (C|POSIX) ]] && unset LC_CTYPE
+      [[ -z ${LANG:-} || $LANG == (C|POSIX) ]] && export LANG=$_l
       break
     fi
   done
