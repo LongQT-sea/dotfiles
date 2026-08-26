@@ -66,9 +66,9 @@ format = '[@$hostname]($style)'
 [directory]
 style = 'bg:peach fg:crust'
 format = '[](fg:prev_bg bg:peach)[ $path ]($style)[($read_only )]($read_only_style)'
-truncation_length = 4
+truncation_length = 7
 truncation_symbol = '…/'
-truncate_to_repo = true
+truncate_to_repo = false
 read_only_style = 'bg:peach fg:crust'
 read_only = ''
 
