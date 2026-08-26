@@ -524,11 +524,11 @@ termux_directory_tweak() {
       -e '/^\[directory\]/,/^\[/ s/^truncation_length = 7/truncation_length = 4/' "$1"
 }
 
-stash() {   # stash PATH REL [WHY]
-  local path="$1" rel="$2" why="${3:-}"
+stash() {   # stash PATH REL
+  local path="$1" rel="$2"
   local dest="$BACKUP_ROOT/$STAMP/$rel"
 
-  warn "SAVE  ~/$rel -> old_dotfiles/$STAMP/$rel${why:+  ($why)}"
+  warn "SAVE  ~/$rel -> old_dotfiles/$STAMP/$rel"
   run mkdir -p "$(dirname "$dest")"
   run mv "$path" "$dest"
 }
@@ -571,7 +571,7 @@ prune_dir() {
     if [ ! -f "$f" ] || [ -L "$f" ]; then continue; fi
     name="${f##*/}"
     [ -e "$src/$name" ] && continue
-    stash "$f" "$rel/$name" "gone from the repo"
+    stash "$f" "$rel/$name"
   done
 }
 

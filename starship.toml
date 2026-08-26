@@ -120,7 +120,7 @@ stashed = '≡${count} '
 conflicted = '‼${count} '
 
 [git_metrics]
-disabled = false
+disabled = true
 only_nonzero_diffs = true
 added_style = 'bg:yellow fg:crust'
 deleted_style = 'bg:yellow fg:crust'
