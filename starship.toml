@@ -47,18 +47,18 @@ disabled = false
 show_always = false
 style_user = 'bg:red fg:crust'
 style_root = 'bg:red fg:crust'
-format = '[$user]($style)'
+format = '[($user)]($style)'
 
 [hostname]
 disabled = false
 ssh_only = true
-ssh_symbol = '󰖟 '
+ssh_symbol = '󰖟'
 style = 'bg:red fg:crust'
-format = '[@$ssh_symbol$hostname ]($style)'
+format = '[@$hostname]($style)'
 
 [directory]
 style = 'bg:peach fg:crust'
-format = '[](fg:prev_bg bg:peach)[ $path ]($style)[$read_only]($read_only_style)'
+format = '[](fg:prev_bg bg:peach)[ $path ]($style)[($read_only )]($read_only_style)'
 truncation_length = 4
 truncation_symbol = '…/'
 truncate_to_repo = true
@@ -124,54 +124,54 @@ style = 'bg:yellow fg:crust'
 format = '[$state( $progress_current/$progress_total) ]($style)'
 
 [c]
-symbol = ' '
+symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ $symbol (${version} )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
 [rust]
 symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ $symbol (${version} )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
 [golang]
 symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ $symbol (${version} )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
 [nodejs]
 symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ $symbol (${version} )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
 [bun]
 symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ $symbol (${version} )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
 [php]
 symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ $symbol (${version} )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
 [java]
-symbol = ' '
+symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ $symbol (${version} )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
 [kotlin]
 symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ $symbol ($version )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
 [haskell]
 symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ $symbol ($version )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
 [python]
 symbol = ''
 style = 'bg:green fg:crust'
-format = '[](fg:prev_bg bg:green)[ ${symbol} ${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${pyenv_prefix})( ${version})( \($virtualenv\)) ]($style)'
 
 [conda]
 symbol = ''
@@ -187,7 +187,7 @@ format = '[](fg:prev_bg bg:sky)[ $symbol $state( \($name\)) ]($style)'
 [docker_context]
 symbol = ''
 style = 'bg:sapphire fg:crust'
-format = '[](fg:prev_bg bg:sapphire)[ $symbol $context]($style)'
+format = '[](fg:prev_bg bg:sapphire)[ $symbol( $context) ]($style)'
 
 [kubernetes]
 disabled = false
@@ -210,7 +210,7 @@ format = '[](fg:prev_bg bg:teal)[$symbol \[$name\]]($style)'
 [cmd_duration]
 min_time = 2000
 style = 'bg:lavender fg:crust'
-format = '[](fg:prev_bg bg:lavender)[ 󱎫 $duration ]($style)'
+format = '[](fg:prev_bg bg:lavender)[ 󱎫 $duration]($style)'
 
 [fill]
 symbol = ' ∙'
@@ -219,7 +219,7 @@ symbol = ' ∙'
 disabled = false
 time_format = '%R'
 style = 'bg:surface0 fg:text'
-format = '[ $time]($style)'
+format = '[ $time]($style)'
 
 [line_break]
 disabled = false
