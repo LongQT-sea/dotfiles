@@ -6,7 +6,9 @@ Plugins: [`zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestion
 
 ## Install
 > [!Important]
-> Requires true-color terminal — use iTerm2 for macOS 15/14.
+> Requires true-color terminal.
+> On macOS 15 and earlier, use Ghostty or iTerm2.
+
 ```zsh
 git clone https://github.com/LongQT-sea/dotfiles.git ~/dotfiles
 cd ~/dotfiles && ./install.sh
@@ -159,8 +161,9 @@ nvm install --lts
 | `gitignore_global` | `~/.config/git/ignore` | Git's own XDG default — no `core.excludesFile` needed. |
 
 Copies, so the repo can be moved or deleted afterwards. `--link` symlinks to it
-instead. Switching either way is safe: real files are moved to
-`<file>.bak-<timestamp>` first.
+instead. Switching either way is safe: anything displaced is moved to
+`~/old_dotfiles/<timestamp>/`, mirroring its path — so a stale module the repo
+no longer has stops being sourced, and `rm -rf ~/old_dotfiles` is the cleanup.
 
 Never placed, never committed: the plugin clones under `~/.config/zsh/plugins/`,
 and `~/.zshrc.local` for machine-local secrets.
