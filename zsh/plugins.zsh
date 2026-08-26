@@ -23,6 +23,14 @@ zplugin-update() {
   done
 }
 
+# fg=8 is out of range below 16 colours; bold black is the only bright-black there.
+zmodload zsh/terminfo
+if (( ${terminfo[colors]:-8} >= 16 )); then
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+else
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=black,bold'
+fi
+
 _zplugin_load zsh-users zsh-autosuggestions
 
 # Must load LAST.
