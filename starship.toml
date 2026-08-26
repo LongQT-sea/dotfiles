@@ -1,5 +1,9 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+add_newline = true
+
+palette = 'catppuccin_mocha'
+
 format = """
 [](red)\
 $os\
@@ -16,6 +20,7 @@ $kubernetes\
 $container\
 $netns\
 $c\
+$cmake\
 $rust\
 $golang\
 $nodejs\
@@ -23,19 +28,21 @@ $bun\
 $php\
 $java\
 $kotlin\
+$dart\
 $haskell\
+$swift\
+$dotnet\
 $python\
 $conda\
 $cmd_duration\
 [](fg:prev_bg)\
 $fill\
 [](fg:surface0)\
+$battery\
 $time\
 [](fg:surface0)\
 $line_break\
 $character"""
-
-palette = 'catppuccin_mocha'
 
 [os]
 disabled = false
@@ -128,6 +135,11 @@ symbol = ''
 style = 'bg:green fg:crust'
 format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
+[cmake]
+symbol = ''
+style = 'bg:green fg:crust'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
+
 [rust]
 symbol = ''
 style = 'bg:green fg:crust'
@@ -163,8 +175,23 @@ symbol = ''
 style = 'bg:green fg:crust'
 format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
+[dart]
+symbol = ''
+style = 'bg:green fg:crust'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
+
 [haskell]
 symbol = ''
+style = 'bg:green fg:crust'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
+
+[swift]
+symbol = ''
+style = 'bg:green fg:crust'
+format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
+
+[dotnet]
+symbol = '󰪮'
 style = 'bg:green fg:crust'
 format = '[](fg:prev_bg bg:green)[ $symbol( ${version}) ]($style)'
 
@@ -214,6 +241,19 @@ format = '[](fg:prev_bg bg:lavender)[ 󱎫 $duration]($style)'
 
 [fill]
 symbol = ' ∙'
+
+[battery]
+disabled = false
+full_symbol = '󰁹'
+charging_symbol = '󰂄'
+discharging_symbol = '󰂃'
+unknown_symbol = '󰂑'
+empty_symbol = '󰂎'
+format = '[](fg:prev_bg bg:red)[$symbol($percentage) ]($style)'
+
+[[battery.display]]
+threshold = 20
+style = 'bg:surface0 fg:red'
 
 [time]
 disabled = false
