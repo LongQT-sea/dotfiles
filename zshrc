@@ -14,12 +14,6 @@ typeset -U path PATH
 path=("$HOME/.local/bin" $path)
 export PATH
 
-# Re-run .zshenv's editor pick now that PATH is complete.
-for _ed in vim nvim vi; do
-  (( $+commands[$_ed] )) && { export EDITOR=$_ed VISUAL=$_ed; break }
-done
-unset _ed
-
 # =========================================================
 # History
 # =========================================================

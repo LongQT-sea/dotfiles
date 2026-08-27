@@ -1,6 +1,13 @@
 # ~/.zshenv — read by EVERY zsh invocation. Keep it tiny; interactive things
 # belong in .zshrc. It exists for PATH: `zsh -c` reads only this file.
 
+# ---------- PATH ----------
+# macOS path_helper runs after this and demotes ~/.local/bin, so .zshrc
+# re-prepends. Both needed: here for scripts, there for interactive shells.
+typeset -U path PATH
+path=("$HOME/.local/bin" $path)
+export PATH
+
 # ---------- Editor ----------
 for _ed in vim nvim vi; do
   if (( $+commands[$_ed] )); then
@@ -10,35 +17,38 @@ for _ed in vim nvim vi; do
 done
 unset _ed
 
-# ---------- PATH ----------
-# macOS path_helper runs after this and demotes ~/.local/bin, so .zshrc
-# re-prepends. Both needed: here for scripts, there for interactive shells.
-typeset -U path PATH
-path=("$HOME/.local/bin" $path)
-export PATH
-
 # ---------- Locale ----------
 # Containers and `pct enter` hand over no locale, leaving LC_CTYPE at POSIX:
 # zsh counts the 3 bytes of a glyph like ❯ as 3 columns and redraws the line in
 # the wrong place. Anything other than C/POSIX was chosen deliberately, so leave it.
 _ctype=${LC_ALL:-${LC_CTYPE:-${LANG:-}}}
 if [[ -z $_ctype || $_ctype == (C|POSIX) ]]; then
-  # No `locale` (busybox, musl): C.UTF-8 is the built-in default there.
-  if (( $+commands[locale] )); then
-    _locales=(${(f)"$(locale -a 2>/dev/null)"})
+  # `locale -a` forks on every zsh otherwise (~11ms). rm the file to re-probe.
+  _lc_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/locale"
+  if [[ -s $_lc_cache ]]; then
+    read -r _l < $_lc_cache
   else
-    _locales=()
-  fi
-  for _l in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8; do
-    if (( $#_locales == 0 )) || (( ${_locales[(I)$_l]} )); then
-      # Both outrank LANG, so a C left in either would swallow the export below.
-      [[ ${LC_ALL:-}   == (C|POSIX) ]] && unset LC_ALL
-      [[ ${LC_CTYPE:-} == (C|POSIX) ]] && unset LC_CTYPE
-      [[ -z ${LANG:-} || $LANG == (C|POSIX) ]] && export LANG=$_l
-      break
+    # No `locale` (busybox, musl): C.UTF-8 is the built-in default there.
+    if (( $+commands[locale] )); then
+      _locales=(${(f)"$(locale -a 2>/dev/null)"})
+    else
+      _locales=()
     fi
-  done
-  unset _locales _l
+    for _l in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8; do
+      (( $#_locales == 0 )) || (( ${_locales[(I)$_l]} )) && break
+      _l=
+    done
+    [[ -n $_l ]] && mkdir -p ${_lc_cache:h} 2>/dev/null &&
+      print -r -- $_l > $_lc_cache 2>/dev/null
+    unset _locales
+  fi
+  if [[ -n $_l ]]; then
+    # Both outrank LANG, so a C left in either would swallow the export below.
+    [[ ${LC_ALL:-}   == (C|POSIX) ]] && unset LC_ALL
+    [[ ${LC_CTYPE:-} == (C|POSIX) ]] && unset LC_CTYPE
+    [[ -z ${LANG:-} || $LANG == (C|POSIX) ]] && export LANG=$_l
+  fi
+  unset _l _lc_cache
 fi
 unset _ctype
 
