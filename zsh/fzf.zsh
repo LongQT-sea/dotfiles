@@ -11,55 +11,68 @@ elif (( $+commands[batcat] )); then _bat=batcat
 fi
 
 if [[ -n $_fd ]]; then
-  # --exclude .git: per fd's docs --hidden pulls in .git, which then swamps
-  # every real result inside a repo.
-  export FZF_DEFAULT_COMMAND="$_fd --type f --hidden --exclude .git --strip-cwd-prefix"
-  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-fi
-# No fd: leave both unset on purpose. fzf's own walker skips .git and
-# node_modules; `find . -type f` skips nothing and buries real files.
+  # Referenced at call time by _fzf_compgen_*; must stay set.
+  _FZF_FD_OPTS=(--hidden --exclude .git --exclude .zsh_sessions --exclude '.zcompdump*')
 
-# `vim ,,<Tab>` instead of the default `**`, which is Shift-8 twice.
+  export FZF_DEFAULT_COMMAND="$_fd ${(j: :)${(q)_FZF_FD_OPTS[@]}} --strip-cwd-prefix"
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+  # Tab completion doesn't read FZF_DEFAULT_COMMAND; it calls these if defined.
+  _FZF_FD="$_fd"
+  _fzf_compgen_path() { $_FZF_FD "${_FZF_FD_OPTS[@]}" . "$1" }
+  _fzf_compgen_dir()  { $_FZF_FD --type d "${_FZF_FD_OPTS[@]}" . "$1" }
+fi
+# No fd: leave the command unset on purpose. fzf's own walker skips .git and
+# node_modules; `find . -type f` skips nothing and buries real results.
+
+# `vim ,,<Tab>` instead of the default `**`.
 export FZF_COMPLETION_TRIGGER=',,'
 
-# UI
 export FZF_DEFAULT_OPTS='
-  --height=60%
+  --height=99%
   --layout=reverse
   --border=rounded
   --prompt="  "
   --pointer="  "
-  --preview-window=right:65%:wrap:border-left
+  --preview-window=right:50%:wrap:border-left
+  --bind=alt-p:toggle-preview
+  --bind="alt-/:change-preview-window(75%|down,border-top|)"
 '
 
-if [[ -n $_bat ]]; then
-  _FZF_PREVIEW_CMD="$_bat --color=always --style=plain,numbers --line-range=:500 {}"
+if (( $+commands[eza] )); then
+  _lsdir="eza -lA --icons=auto --group-directories-first --color=always"
 else
-  _FZF_PREVIEW_CMD='head -n 500 {}'
+  case "$OSTYPE" in
+    darwin*|*bsd*) _lsdir='ls -lA -G' ;;
+    *)             _lsdir='ls -lA --color=always' ;;
+  esac
 fi
-export FZF_CTRL_T_OPTS="--preview '$_FZF_PREVIEW_CMD'"
 
-# Not exported: both are interpolated into --preview before fzf is spawned.
-_FZF_BAT="$_bat"      # the rg preview needs the binary, not the command
-unset _fd _bat
+if [[ -n $_bat ]]; then
+  _FZF_PREVIEW_CMD="if [ -d {} ]; then $_lsdir {}; else $_bat --color=always --style=plain,numbers --line-range=:500 {}; fi"
+else
+  _FZF_PREVIEW_CMD="if [ -d {} ]; then $_lsdir {}; else head -n 500 {}; fi"
+fi
 
-# Ctrl+F: file picker excluding hidden files
-_fzf_file_no_hidden() {
-  local result
-  if [[ -n $FZF_DEFAULT_COMMAND ]]; then
-    result=$(eval "${FZF_DEFAULT_COMMAND/--hidden /}" | fzf --preview "$_FZF_PREVIEW_CMD")
-  elif fzf --walker=file --version >/dev/null 2>&1; then
-    # fzf 0.43+. Dropping "hidden" stops it descending into dot-directories.
-    result=$(fzf --walker=file,follow --preview "$_FZF_PREVIEW_CMD")
-  else
-    # Older fzf (Debian 12 ships 0.38): its default already prunes dot-paths.
-    result=$(fzf --preview "$_FZF_PREVIEW_CMD")
-  fi
-  # (q-) quotes only when needed, so a path with spaces stays one word.
-  [[ -n $result ]] && LBUFFER+="${(q-)result}"   # empty when cancelled with Esc
-  zle reset-prompt
-}
-zle -N _fzf_file_no_hidden
+export FZF_CTRL_T_OPTS="--preview '$_FZF_PREVIEW_CMD' --bind='alt-e:execute(\${EDITOR:-vi} {})+abort'"
+
+# Alt-. toggles hidden files. Guarded: with no fd both reloads are empty and
+# wipe the list. State lives in --header-label, which fzf only paints on a
+# header border — there is no --header here. `case` not `[[`: transform runs
+# under sh, where [[ is not a builtin.
+if [[ -n $FZF_DEFAULT_COMMAND ]]; then
+  _FZF_FD_NOHIDDEN="${FZF_DEFAULT_COMMAND/--hidden /}"
+
+  FZF_CTRL_T_OPTS+="
+--bind 'alt-.:transform:
+case \$FZF_HEADER_LABEL in
+  nohidden) echo \"change-header-label()+reload($FZF_DEFAULT_COMMAND)\" ;;
+  *)        echo \"change-header-label(nohidden)+reload($_FZF_FD_NOHIDDEN)\" ;;
+esac'"
+fi
+
+_FZF_BAT="$_bat"
+unset _fd _bat _lsdir
 
 # Ctrl+G: search file contents. --disabled lets rg do the matching, not fzf.
 # Not in $( ): `become` execs $EDITOR in fzf's place and needs the terminal.
@@ -77,7 +90,7 @@ _fzf_rg_edit() {
       --bind "change:reload:sleep 0.1; $rg {q} || true" \
       --delimiter : \
       --preview "$prev" \
-      --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+      --preview-window "right:40%:wrap:border-left:+{2}+3/3" \
       --bind "enter:become(${EDITOR:-vi} {1} +{2})"
   zle reset-prompt
 }

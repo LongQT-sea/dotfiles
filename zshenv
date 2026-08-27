@@ -9,7 +9,7 @@ path=("$HOME/.local/bin" $path)
 export PATH
 
 # ---------- Editor ----------
-for _ed in vim nvim vi; do
+for _ed in vim nvim vi nano edit; do
   if (( $+commands[$_ed] )); then
     export EDITOR=$_ed VISUAL=$_ed
     break

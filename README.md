@@ -7,7 +7,7 @@ Plugins: [`zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestion
 ## Install
 > [!Important]
 > Requires true-color terminal.
-> On macOS 15 and earlier, use Ghostty or iTerm2.
+> On macOS 15 and earlier, use Ghostty or iTerm2 or Tabby.
 
 ```zsh
 git clone https://github.com/LongQT-sea/dotfiles.git ~/dotfiles
@@ -30,20 +30,33 @@ cd ~/dotfiles && ./install.sh
 
 ### Keys
 > [!TIP]
-> Press `Esc` to close any fuzzy picker (`Ctrl`–`R`, `Ctrl`–`F`, `Ctrl`–`T`, `Ctrl`–`G`, `Alt`–`C`, ...)
+> Press `Esc` to close any fuzzy picker (`Ctrl`–`R`, `Ctrl`–`T`, `Ctrl`–`G`, `Alt`–`C`, ...)
 
 | Key | What it does |
 |---|---|
 | `Ctrl`–`R` | Fuzzy-search shell history. Type any fragment, `Enter` to run it. |
-| `Ctrl`–`F` | Insert the selected file/directory path at the cursor. |
-| `Ctrl`–`T` | Same picker as `Ctrl`–`F`, plus hidden files and directories. |
-| `Ctrl`–`G` | Search file *contents* live. `Enter` opens `$EDITOR` at the matching line. |
+| `Ctrl`–`T` | Insert the selected file or directory path at the cursor. |
+| `Ctrl`–`G` | Live-search file contents. `Enter` opens `$EDITOR` at the matching line. |
 | `Alt`–`C`/`Esc`–`C` | `cd` into the selected directory. |
 | `,,`–`Tab` | Type `,,` at the end of a word and press `Tab` for a fuzzy picker — files for `vim ,,`, directories for `cd ,,`, processes for `kill ,,`. |
 | `Up` / `Down` | Filters history based on any substring currently on your command line. `git c`–`Up` only walks through your `git c…` commands. |
 | `Right` / `End` | Accept the greyed-out suggestion. `Ctrl`–`Right` accepts one word at a time. |
 | `Ctrl`–`\` | Toggle the auto suggestions on and off |
 | `Esc`–`H` | Open the manpage for the command on the current line, syntax highlighted. |
+
+### Inside a fuzzy picker
+
+> [!IMPORTANT]
+> On macOS, the **Option** ⌥ (Alt) key **requires** additional configuration to behave like it does on Windows or Linux.<br>
+> **Terminal.app:** Settings → Profile → Keyboard → Use Option as Meta key.<br>
+> **iTerm.app:** Settings → Profile → Keys → General → Left/Right Option key → change to **Esc+**.
+
+| Key | What it does |
+|---|---|
+| `Alt`–`P` | Show or hide the preview pane. |
+| `Alt`–`/` | Cycle the preview pane through wider, bottom, and back to its original position. |
+| `Alt`–`E` | Only inside `Ctrl`–`T`: Open the highlighted file in `$EDITOR` instead of inserting its path. |
+| `Alt`–`.` | Only inside `Ctrl`–`T`: Toggle the visibility of dot files and directories. |
 
 ### Editing the line
 
@@ -122,6 +135,7 @@ ssh -T git@github.com
 ```
 
 ```zsh
+# Change these
 _NAME="Tieu Long"
 _EMAIL="long025733@gmail.com"
 

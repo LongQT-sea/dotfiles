@@ -23,8 +23,8 @@ bindkey '^[[1~' beginning-of-line     # Home      # linux console, tmux, PuTTY
 bindkey '^[[4~' end-of-line           # End
 bindkey '^[[7~' beginning-of-line     # Home      # rxvt
 bindkey '^[[8~' end-of-line           # End
-bindkey '^F' _fzf_file_no_hidden      # Ctrl+F    # file picker, defined in fzf.zsh
-bindkey '^G' _fzf_rg_edit             # Ctrl+G    # grep contents, also fzf.zsh
+
+bindkey '^G' _fzf_rg_edit             # Ctrl+G    # grep contents, defined in fzf.zsh
 
 # fzf binds Tab in whatever keymap is current when it loads — viins, since
 # $EDITOR is vim — and the `bindkey -e` above then moves us to emacs.
