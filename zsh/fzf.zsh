@@ -16,6 +16,7 @@ if [[ -n $_fd ]]; then
 
   export FZF_DEFAULT_COMMAND="$_fd ${(j: :)${(q)_FZF_FD_OPTS[@]}} --strip-cwd-prefix"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND="$_fd --type d ${(j: :)${(q)_FZF_FD_OPTS[@]}} --strip-cwd-prefix"
 
   # Tab completion doesn't read FZF_DEFAULT_COMMAND; it calls these if defined.
   _FZF_FD="$_fd"
