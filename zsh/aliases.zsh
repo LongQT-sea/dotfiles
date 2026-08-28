@@ -15,6 +15,8 @@ if (( $+commands[ip] )) && [[ ${commands[ip]:A:t} != busybox ]]; then
   alias ip='ip -c'
 fi
 
+(( $+commands[bridge] )) && alias bridge='bridge -c'
+
 alias run-help=man   # zsh's own default; Debian's zsh-common overrides it
 
 if (( ! $+commands[man] )); then

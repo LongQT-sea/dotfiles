@@ -30,7 +30,7 @@ cd ~/dotfiles && ./install.sh
 
 ### Keys
 > [!TIP]
-> Press `Esc` to close any fuzzy picker (`Ctrl`–`R`, `Ctrl`–`T`, `Ctrl`–`G`, `Alt`–`C`, ...)
+> Press `Esc` to close any fuzzy picker (`Ctrl`–`T`, `Ctrl`–`G`, `Alt`–`C`, `Ctrl`–`R`, ...)
 
 | Key | What it does |
 |---|---|
@@ -64,7 +64,7 @@ cd ~/dotfiles && ./install.sh
 |---|---|
 | `Ctrl`–`A` / `Ctrl`–`E` | Move to the start / end of the line, same as `Home` / `End`. |
 | `Ctrl`–`Left` / `Ctrl`–`Right` | Move by word. `Alt`–`Left` / `Alt`–`Right` work too. |
-| `Ctrl`–`W` | Delete the word before the cursor. |
+| `Ctrl`–`W` | Delete backward by one word. |
 | `Ctrl`–`K` | Delete from the cursor to the end of the line. |
 | `Ctrl`–`U` | Delete from the cursor to the start of the line. |
 | `Ctrl`–`Y` | Restore the text removed by the last `Ctrl`–`W`, `Ctrl`–`K`, or `Ctrl`–`U`. |
