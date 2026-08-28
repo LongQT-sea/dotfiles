@@ -281,14 +281,13 @@ pkg_available() {
   esac
 }
 
-# Debian renames fd/bat; vim means "any editor", so it is installed only on a
-# box with none — as Debian and Ubuntu base images have.
+# Debian renames fd/bat. vim is skipped when nvim is already there, but not for
+# a bare `vi`: busybox's applet is one, and it would mask vim on every Alpine.
 have() {
   case "$1" in
     fd)  command -v fd  >/dev/null 2>&1 || command -v fdfind >/dev/null 2>&1 ;;
     bat) command -v bat >/dev/null 2>&1 || command -v batcat >/dev/null 2>&1 ;;
-    vim) command -v vim >/dev/null 2>&1 || command -v vi >/dev/null 2>&1 ||
-         command -v nvim >/dev/null 2>&1 ;;
+    vim) command -v vim >/dev/null 2>&1 || command -v nvim >/dev/null 2>&1 ;;
     *)   command -v "$1" >/dev/null 2>&1 ;;
   esac
 }
