@@ -54,9 +54,9 @@ cd ~/dotfiles && ./install.sh
 | Key | What it does |
 |---|---|
 | `Alt`–`P` | Show or hide the preview pane. |
-| `Alt`–`/` | Cycle the preview pane through wider, bottom, and back to its original position. |
-| `Alt`–`E` | Only inside `Ctrl`–`T`: Open the highlighted file in `$EDITOR` instead of inserting its path. |
-| `Alt`–`.` | Only inside `Ctrl`–`T`: Toggle the visibility of dot files and directories. |
+| `Alt`–`/` | In `Ctrl`–`T` and `Ctrl`–`G` only: Cycle the preview pane's size and position, then back to its original one. |
+| `Alt`–`E` | In `Ctrl`–`T` only: Open the highlighted file in `$EDITOR` instead of inserting its path. |
+| `Alt`–`.` | In `Ctrl`–`T` only: Toggle the visibility of dot files and directories. |
 
 ### Editing the line
 

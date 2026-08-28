@@ -37,7 +37,6 @@ export FZF_DEFAULT_OPTS='
   --pointer="  "
   --preview-window=right:50%:wrap:border-left
   --bind=alt-p:toggle-preview
-  --bind="alt-/:change-preview-window(75%|down,border-top|)"
 '
 
 if (( $+commands[eza] )); then
@@ -55,7 +54,11 @@ else
   _FZF_PREVIEW_CMD="if [ -d {} ]; then $_lsdir {}; else head -n 500 {}; fi"
 fi
 
-export FZF_CTRL_T_OPTS="--preview '$_FZF_PREVIEW_CMD' --bind='alt-e:execute(\${EDITOR:-vi} {})+abort'"
+export FZF_CTRL_T_OPTS="
+  --preview '$_FZF_PREVIEW_CMD'
+  --bind='alt-e:execute(\${EDITOR:-vi} {})+abort'
+  --bind='alt-/:change-preview-window(75%|down,border-top|)'
+"
 
 # Alt-. toggles hidden files. Guarded: with no fd both reloads are empty and
 # wipe the list. State lives in --header-label, which fzf only paints on a
@@ -64,12 +67,13 @@ export FZF_CTRL_T_OPTS="--preview '$_FZF_PREVIEW_CMD' --bind='alt-e:execute(\${E
 if [[ -n $FZF_DEFAULT_COMMAND ]]; then
   _FZF_FD_NOHIDDEN="${FZF_DEFAULT_COMMAND/--hidden /}"
 
-  FZF_CTRL_T_OPTS+="
---bind 'alt-.:transform:
-case \$FZF_HEADER_LABEL in
-  nohidden) echo \"change-header-label()+reload($FZF_DEFAULT_COMMAND)\" ;;
-  *)        echo \"change-header-label(nohidden)+reload($_FZF_FD_NOHIDDEN)\" ;;
-esac'"
+  FZF_CTRL_T_OPTS+="\
+  --bind 'alt-.:transform:
+    case \$FZF_HEADER_LABEL in
+      nohidden) echo \"change-header-label()+reload($FZF_DEFAULT_COMMAND)\" ;;
+             *) echo \"change-header-label(nohidden)+reload($_FZF_FD_NOHIDDEN)\" ;;
+    esac'
+  "
 fi
 
 _FZF_BAT="$_bat"
@@ -91,8 +95,9 @@ _fzf_rg_edit() {
       --bind "change:reload:sleep 0.1; $rg {q} || true" \
       --delimiter : \
       --preview "$prev" \
-      --preview-window "right:40%:wrap:border-left:+{2}+3/3" \
-      --bind "enter:become(${EDITOR:-vi} {1} +{2})"
+      --preview-window "down:40%:wrap:border-top:+{2}+3/3" \
+      --bind "enter:become(${EDITOR:-vi} {1} +{2})" \
+      --bind 'alt-/:change-preview-window(right,border-left|)'
   zle reset-prompt
 }
 zle -N _fzf_rg_edit
