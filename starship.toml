@@ -6,6 +6,7 @@ add_newline = true
 #  catppuccin  catppuccin_latte  tokyo_night  gruvbox  dracula  nord  one_dark  solarized_dark  monochrome
 #  cyberpunk  ember  ice  orchid  aurora  forest  obsidian  harbor  neon_noir  paper  slate  umber
 #  jewel  velvet  abyss  cellar
+#  tokyo_night_vscode
 
 palette = 'catppuccin'
 
@@ -288,7 +289,7 @@ vimcmd_visual_symbol = '[❮](bold fg:vim)'
 [os.symbols]
 Windows = ''
 Ubuntu = '󰕈'
-SUSE = ''
+openSUSE = ''
 Raspbian = '󰐿'
 Mint = '󰣭'
 Macos = ''
@@ -305,6 +306,14 @@ CentOS = ''
 Debian = '󰣚'
 Redhat = '󱄛'
 RedHatEnterprise = '󱄛'
+NixOS       = ''
+Pop         = ''
+EndeavourOS = ''
+Kali        = ''
+FreeBSD     = ''
+Elementary  = ''
+Zorin       = ''
+Unknown     = '󰋖'
 
 [palettes.catppuccin]
 ink          = '#11111b'
@@ -339,7 +348,7 @@ crit         = '#965862'
 vim          = '#89dceb'
 bat_crit     = '#eba0ac'
 bat_low      = '#f9e2af'
- 
+
 [palettes.catppuccin_latte]
 ink          = '#303357'
 identity     = '#e5a2b3'
@@ -373,41 +382,41 @@ crit         = '#d20f39'
 vim          = '#04a5e5'
 bat_crit     = '#d20f39'
 bat_low      = '#df8e1d'
- 
+
 [palettes.tokyo_night]
-ink          = '#1a1b26'
-identity     = '#f7768e'
-path         = '#ff9e64'
-vcs          = '#e0af68'
-lang_c       = '#d7e3ff'
-lang_cmake   = '#00b08d'
-lang_rust    = '#e0716a'
-lang_golang  = '#00a6d0'
-lang_nodejs  = '#67ab53'
-lang_bun     = '#cb8615'
-lang_php     = '#d0bcff'
-lang_java    = '#d57e31'
-lang_kotlin  = '#f0d9ff'
-lang_dart    = '#639cd2'
-lang_haskell = '#c874bd'
-lang_swift   = '#dd7651'
-lang_dotnet  = '#b183bf'
-lang_python  = '#b29500'
-env          = '#7dcfff'
-container    = '#bb9af7'
-cluster      = '#7aa2f7'
-net          = '#73daca'
-dur          = '#a9b1d6'
-bar          = '#1f2335'
-bar_ink      = '#c0caf5'
-fill_ink     = '#565f89'
-ok           = '#9ece6a'
-err          = '#f7768e'
-crit         = '#ba2622'
-vim          = '#2ac3de'
-bat_crit     = '#ff635f'
-bat_low      = '#c79600'
- 
+ink          = '#191724'
+identity     = '#eb6f92'
+path         = '#f6c177'
+vcs          = '#ebbcba'
+lang_c       = '#a3b8e0'
+lang_cmake   = '#8ec8b8'
+lang_rust    = '#e0938a'
+lang_golang  = '#9dc8dd'
+lang_nodejs  = '#a8c98f'
+lang_bun     = '#e3cba8'
+lang_php     = '#a9a5d8'
+lang_java    = '#dda58f'
+lang_kotlin  = '#c8a3dd'
+lang_dart    = '#8fc6d6'
+lang_haskell = '#d3a0cb'
+lang_swift   = '#e59f8a'
+lang_dotnet  = '#bba8e0'
+lang_python  = '#d9c58f'
+env          = '#9ccfd8'
+container    = '#c4a7e7'
+cluster      = '#7fb3c8'
+net          = '#a3d5cd'
+dur          = '#c9c3e8'
+bar          = '#1f1d2e'
+bar_ink      = '#e0def4'
+fill_ink     = '#6e6a86'
+ok           = '#9ccfd8'
+err          = '#eb6f92'
+crit         = '#8c3a52'
+vim          = '#c4a7e7'
+bat_crit     = '#eb6f92'
+bat_low      = '#f6c177'
+
 [palettes.gruvbox]
 ink          = '#282828'
 identity     = '#fb4934'
@@ -441,7 +450,7 @@ crit         = '#94332d'
 vim          = '#8ec07c'
 bat_crit     = '#ff7e77'
 bat_low      = '#d6a100'
- 
+
 [palettes.dracula]
 ink          = '#282a36'
 identity     = '#ff5555'
@@ -475,7 +484,7 @@ crit         = '#9e5a54'
 vim          = '#d6acff'
 bat_crit     = '#ffaaa3'
 bat_low      = '#e6ad00'
- 
+
 [palettes.nord]
 ink          = '#2e3440'
 identity     = '#bf616a'
@@ -509,7 +518,7 @@ crit         = '#7a3833'
 vim          = '#8fbcbb'
 bat_crit     = '#ff958d'
 bat_low      = '#e6ad00'
- 
+
 [palettes.one_dark]
 ink          = '#282c34'
 identity     = '#e06c75'
@@ -543,7 +552,7 @@ crit         = '#a3211e'
 vim          = '#61afef'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.solarized_dark]
 ink          = '#002b36'
 identity     = '#e97b6d'
@@ -577,7 +586,7 @@ crit         = '#ab0300'
 vim          = '#268bd2'
 bat_crit     = '#dc322f'
 bat_low      = '#b58900'
- 
+
 [palettes.monochrome]
 ink          = '#111111'
 identity     = '#e2e0e0'
@@ -611,7 +620,7 @@ crit         = '#bf2723'
 vim          = '#b0b0b0'
 bat_crit     = '#e54641'
 bat_low      = '#c79600'
- 
+
 [palettes.cyberpunk]
 ink          = '#08080c'
 identity     = '#ff2a6d'
@@ -645,7 +654,7 @@ crit         = '#ba2622'
 vim          = '#00b8ff'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.ember]
 ink          = '#1a0e08'
 identity     = '#d35646'
@@ -679,7 +688,7 @@ crit         = '#661513'
 vim          = '#ffb347'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.ice]
 ink          = '#0b1220'
 identity     = '#6b74e8'
@@ -713,7 +722,7 @@ crit         = '#851b18'
 vim          = '#67e8f9'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.orchid]
 ink          = '#150a1e'
 identity     = '#7666ff'
@@ -747,7 +756,7 @@ crit         = '#661513'
 vim          = '#e85cb8'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.aurora]
 ink          = '#08181a'
 identity     = '#4fd1a5'
@@ -815,7 +824,7 @@ crit         = '#6e1614'
 vim          = '#a6d75e'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.obsidian]
 ink          = '#0d0d13'
 identity     = '#ffb9f8'
@@ -849,7 +858,7 @@ crit         = '#bf2723'
 vim          = '#00f0de'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.harbor]
 ink          = '#0a0f16'
 identity     = '#94e1ff'
@@ -883,7 +892,7 @@ crit         = '#bf2723'
 vim          = '#1debff'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.neon_noir]
 ink          = '#050509'
 identity     = '#dbcaff'
@@ -917,7 +926,7 @@ crit         = '#bf2723'
 vim          = '#5fe6ff'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.paper]
 ink          = '#2b2924'
 identity     = '#d9eaff'
@@ -951,7 +960,7 @@ crit         = '#b2001a'
 vim          = '#0f5f8f'
 bat_crit     = '#b2001a'
 bat_low      = '#775800'
- 
+
 [palettes.slate]
 ink          = '#0c1014'
 identity     = '#acdeeb'
@@ -985,7 +994,7 @@ crit         = '#bf2723'
 vim          = '#00f0de'
 bat_crit     = '#ff635f'
 bat_low      = '#c79600'
- 
+
 [palettes.umber]
 ink          = '#141010'
 identity     = '#f6c8bc'
@@ -1155,4 +1164,38 @@ crit         = '#f5a080'
 vim          = '#e0c060'
 bat_crit     = '#f5a080'
 bat_low      = '#e8b850'
+
+[palettes.tokyo_night_vscode]
+ink          = '#090c0c'
+identity     = '#a3aed2'
+path         = '#769ff0'
+vcs          = '#8ca7e4'
+lang_c       = '#a6c2dd'
+lang_cmake   = '#a6d9dd'
+lang_rust    = '#ddb9a6'
+lang_golang  = '#a6d0dd'
+lang_nodejs  = '#a6ddab'
+lang_bun     = '#ddcda6'
+lang_php     = '#b0a6dd'
+lang_java    = '#ddaea6'
+lang_kotlin  = '#c9a6dd'
+lang_dart    = '#a6c9dd'
+lang_haskell = '#dda6d4'
+lang_swift   = '#ddc0a6'
+lang_dotnet  = '#baa6dd'
+lang_python  = '#ddd9a6'
+env          = '#b0bcdd'
+container    = '#8ca7e4'
+cluster      = '#9db5ea'
+net          = '#b0bcdd'
+dur          = '#7f92b8'
+bar          = '#1d2230'
+bar_ink      = '#a0a9cb'
+fill_ink     = '#394260'
+ok           = '#9ece6a'
+err          = '#f7768e'
+crit         = '#8c4351'
+vim          = '#2ac3de'
+bat_crit     = '#ff9e64'
+bat_low      = '#e0af68'
 
