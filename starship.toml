@@ -48,7 +48,11 @@ $battery\
 $time\
 [](fg:bar)\
 $line_break\
-$character"""
+$character
+"""
+
+[profiles]
+transient = '$character'
 
 [os]
 disabled = false
